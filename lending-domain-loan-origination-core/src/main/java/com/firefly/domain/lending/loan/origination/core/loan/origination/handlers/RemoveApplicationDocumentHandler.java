@@ -3,9 +3,7 @@ package com.firefly.domain.lending.loan.origination.core.loan.origination.handle
 import com.firefly.common.domain.cqrs.annotations.CommandHandlerComponent;
 import com.firefly.common.domain.cqrs.command.CommandHandler;
 import com.firefly.core.lending.origination.sdk.api.ApplicationDocumentApi;
-import com.firefly.core.lending.origination.sdk.api.ApplicationPartyApi;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.RemoveApplicationDocumentCommand;
-import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.RemoveApplicationPartyCommand;
 import reactor.core.publisher.Mono;
 
 @CommandHandlerComponent

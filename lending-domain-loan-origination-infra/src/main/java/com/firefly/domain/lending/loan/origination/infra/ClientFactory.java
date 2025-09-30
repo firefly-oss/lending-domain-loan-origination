@@ -4,6 +4,7 @@ import com.firefly.core.lending.origination.sdk.api.ApplicationCollateralApi;
 import com.firefly.core.lending.origination.sdk.api.ApplicationDocumentApi;
 import com.firefly.core.lending.origination.sdk.api.ApplicationPartyApi;
 import com.firefly.core.lending.origination.sdk.api.LoanApplicationsApi;
+import com.firefly.core.lending.origination.sdk.api.ProposedOfferApi;
 import com.firefly.core.lending.origination.sdk.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -43,5 +44,10 @@ public class ClientFactory {
     @Bean
     public LoanApplicationsApi loanApplicationsApi() {
         return new LoanApplicationsApi(apiClient);
+    }
+
+    @Bean
+    public ProposedOfferApi proposedOfferApi() {
+        return new ProposedOfferApi(apiClient);
     }
 }

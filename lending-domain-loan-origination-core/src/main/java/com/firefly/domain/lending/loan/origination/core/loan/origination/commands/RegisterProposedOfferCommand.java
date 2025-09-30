@@ -26,4 +26,10 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RegisterProposedOfferCommand extends ProposedOfferDTO implements Command<UUID> {
+    private UUID loanApplicationId;
+
+    public RegisterProposedOfferCommand withLoanApplicationId(UUID loanApplicationId) {
+        this.loanApplicationId = loanApplicationId;
+        return this;
+    }
 }

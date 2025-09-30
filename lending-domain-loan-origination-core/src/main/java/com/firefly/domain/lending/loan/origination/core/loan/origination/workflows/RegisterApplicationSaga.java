@@ -12,9 +12,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.GlobalConstants.CTX_APPLICATION_COLLATERAL_ID;
-import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.GlobalConstants.CTX_APPLICATION_DOCUMENT_ID;
-import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.GlobalConstants.CTX_APPLICATION_PARTY_ID;
 import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.GlobalConstants.CTX_LOAN_APPLICATION_ID;
 import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.RegisterApplicationConstants.*;
 
@@ -64,12 +61,22 @@ public class RegisterApplicationSaga {
 
     @SagaStep(id = STEP_REGISTER_APPLICATION_COLLATERAL, compensate = COMPENSATE_REMOVE_APPLICATION_COLLATERAL, dependsOn = STEP_REGISTER_LOAN_APPLICATION)
     @StepEvent(type = EVENT_APPLICATION_COLLATERAL_REGISTERED)
-    public Mono<UUID> registerCollaterals(RegisterApplicationCollateralCommand cmd, SagaContext ctx) {
+    public Mono<UUID> registerCollateral(RegisterApplicationCollateralCommand cmd, SagaContext ctx) {
         return commandBus.send(cmd.withLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class)));
     }
 
     public Mono<Void> removeApplicationCollateral(UUID applicationCollateralId, SagaContext ctx) {
         return commandBus.send(new RemoveApplicationCollateralCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), applicationCollateralId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_OFFER, compensate = COMPENSATE_REMOVE_OFFER, dependsOn = STEP_REGISTER_LOAN_APPLICATION)
+    @StepEvent(type = EVENT_OFFER_REGISTERED)
+    public Mono<UUID> registerOffer(RegisterProposedOfferCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeOffer(UUID proposedOfferId, SagaContext ctx) {
+        return commandBus.send(new RemoveProposedOfferCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), proposedOfferId));
     }
 
 }

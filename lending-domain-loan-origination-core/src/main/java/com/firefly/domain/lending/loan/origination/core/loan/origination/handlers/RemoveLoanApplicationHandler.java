@@ -4,10 +4,11 @@ import com.firefly.common.domain.cqrs.annotations.CommandHandlerComponent;
 import com.firefly.common.domain.cqrs.command.CommandHandler;
 import com.firefly.core.lending.origination.sdk.api.LoanApplicationsApi;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.RemoveApplicationPartyCommand;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.RemoveLoanApplicationCommand;
 import reactor.core.publisher.Mono;
 
 @CommandHandlerComponent
-public class RemoveLoanApplicationHandler extends CommandHandler<RemoveApplicationPartyCommand, Void> {
+public class RemoveLoanApplicationHandler extends CommandHandler<RemoveLoanApplicationCommand, Void> {
 
     private final LoanApplicationsApi loanApplicationsApi;
 
@@ -16,7 +17,7 @@ public class RemoveLoanApplicationHandler extends CommandHandler<RemoveApplicati
     }
 
     @Override
-    protected Mono<Void> doHandle(RemoveApplicationPartyCommand cmd) {
+    protected Mono<Void> doHandle(RemoveLoanApplicationCommand cmd) {
         return loanApplicationsApi.deleteLoanApplication(cmd.loanApplicationId()).then();
     }
 }
