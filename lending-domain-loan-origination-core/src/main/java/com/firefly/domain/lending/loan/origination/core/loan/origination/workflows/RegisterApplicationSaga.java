@@ -99,4 +99,14 @@ public class RegisterApplicationSaga {
         return commandBus.send(new RemoveUnderwritingScoreCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), underwritingScoreId));
     }
 
+    @SagaStep(id = STEP_REGISTER_DECISION, compensate = COMPENSATE_REMOVE_DECISION, dependsOn = STEP_REGISTER_LOAN_APPLICATION)
+    @StepEvent(type = EVENT_DECISION_REGISTERED)
+    public Mono<UUID> registerDecision(RegisterUnderwritingDecisionCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeDecision(UUID underwritingDecisionId, SagaContext ctx) {
+        return commandBus.send(new RemoveUnderwritingDecisionCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), underwritingDecisionId));
+    }
+
 }

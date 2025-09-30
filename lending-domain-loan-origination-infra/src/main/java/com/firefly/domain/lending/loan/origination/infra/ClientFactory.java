@@ -6,6 +6,7 @@ import com.firefly.core.lending.origination.sdk.api.ApplicationPartyApi;
 import com.firefly.core.lending.origination.sdk.api.LoanApplicationStatusHistoryApi;
 import com.firefly.core.lending.origination.sdk.api.LoanApplicationsApi;
 import com.firefly.core.lending.origination.sdk.api.ProposedOfferApi;
+import com.firefly.core.lending.origination.sdk.api.UnderwritingDecisionApi;
 import com.firefly.core.lending.origination.sdk.api.UnderwritingScoreApi;
 import com.firefly.core.lending.origination.sdk.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,10 @@ public class ClientFactory {
     @Bean
     public UnderwritingScoreApi underwritingScoreApi() {
         return new UnderwritingScoreApi(apiClient);
+    }
+
+    @Bean
+    public UnderwritingDecisionApi underwritingDecisionApi() {
+        return new UnderwritingDecisionApi(apiClient);
     }
 }

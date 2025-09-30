@@ -13,6 +13,7 @@ public class RegisterApplicationConstants {
     public static final String STEP_REGISTER_OFFER = "registerOffer";
     public static final String STEP_REGISTER_STATUS = "registerStatus";
     public static final String STEP_REGISTER_SCORE = "registerScore";
+    public static final String STEP_REGISTER_DECISION = "registerDecision";
 
 
     // ============================== COMPENSATE METHODS ==============================
@@ -23,6 +24,7 @@ public class RegisterApplicationConstants {
     public static final String COMPENSATE_REMOVE_OFFER = "removeOffer";
     public static final String COMPENSATE_REMOVE_STATUS = "removeStatus";
     public static final String COMPENSATE_REMOVE_SCORE = "removeScore";
+    public static final String COMPENSATE_REMOVE_DECISION = "removeDecision";
 
     // ============================== EVENT TYPES ==============================
     public static final String EVENT_LOAN_APPLICATION_REGISTERED = "loanApplication.registered";
@@ -32,6 +34,7 @@ public class RegisterApplicationConstants {
     public static final String EVENT_OFFER_REGISTERED = "offer.registered";
     public static final String EVENT_STATUS_REGISTERED = "status.registered";
     public static final String EVENT_SCORE_REGISTERED = "score.registered";
+    public static final String EVENT_DECISION_REGISTERED = "decision.registered";
 
 
 }

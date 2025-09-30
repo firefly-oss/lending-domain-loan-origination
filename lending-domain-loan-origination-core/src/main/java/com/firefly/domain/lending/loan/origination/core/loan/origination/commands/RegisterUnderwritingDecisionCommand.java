@@ -26,4 +26,10 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RegisterUnderwritingDecisionCommand extends UnderwritingDecisionDTO implements Command<UUID> {
+    private UUID loanApplicationId;
+
+    public RegisterUnderwritingDecisionCommand withLoanApplicationId(UUID loanApplicationId) {
+        this.loanApplicationId = loanApplicationId;
+        return this;
+    }
 }
