@@ -43,7 +43,7 @@ server:
 
 # Clients basePath
 api-configuration:
-  common-platform.product-mgmt:
+  core-lending.loan-origination:
     base-path: http://localhost:8082
 
 springdoc:

@@ -1,0 +1,22 @@
+package com.firefly.domain.lending.loan.origination.core.loan.utils.constants;
+
+public class RegisterApplicationConstants {
+
+    // ============================== SAGA CONFIGURATION ==============================
+    public static final String SAGA_REGISTER_APPLICATION = "RegisterApplicationSaga";
+
+    // ============================== STEP IDENTIFIERS ==============================
+    public static final String STEP_REGISTER_APPLICATION_PARTY = "registerApplicationParty";
+    public static final String STEP_REGISTER_LOAN_APPLICATION = "registerLoanApplication";
+
+
+    // ============================== COMPENSATE METHODS ==============================
+    public static final String COMPENSATE_REMOVE_LOAN_APPLICATION = "removeLoanApplication";
+    public static final String COMPENSATE_REMOVE_APPLICATION_PARTY = "removeApplicationParty";
+
+    // ============================== EVENT TYPES ==============================
+    public static final String EVENT_LOAN_APPLICATION_REGISTERED = "loanApplication.registered";
+    public static final String EVENT_APPLICATION_PARTY_REGISTERED = "applicationParty.registered";
+
+
+}

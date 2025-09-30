@@ -2,9 +2,11 @@ package com.firefly.domain.lending.loan.origination.core.loan.origination.servic
 
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.*;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.services.LoanOriginationService;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationSaga;
 import com.firefly.transactional.core.SagaResult;
+import com.firefly.transactional.engine.ExpandEach;
 import com.firefly.transactional.engine.SagaEngine;
-import jakarta.validation.Valid;
+import com.firefly.transactional.engine.StepInputs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -21,8 +23,12 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
 
     @Override
     public Mono<SagaResult> submitApplication(SubmitApplicationCommand command) {
-        // TODO: Implement loan application submission logic
-        return Mono.empty();
+        StepInputs inputs = StepInputs.builder()
+                .forStep(RegisterApplicationSaga::registerLoanApplication, command.getApplication())
+                .forStep(RegisterApplicationSaga::registerApplicationParty, ExpandEach.of(command.getParties()))
+                .build();
+
+        return engine.execute(RegisterApplicationSaga.class, inputs);
     }
 
     @Override

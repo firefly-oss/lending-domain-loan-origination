@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
  * Maps the properties defined in application.yaml under api-configuration.
  */
 @Configuration
-@ConfigurationProperties(prefix = "api-configuration.common-platform.product-mgmt")
+@ConfigurationProperties(prefix = "api-configuration.core-lending.loan-origination")
 @Data
-public class ProductMgmtProperties {
+public class LoanOriginationProperties {
 
     private String basePath;
 
