@@ -3,6 +3,7 @@ package com.firefly.domain.lending.loan.origination.infra;
 import com.firefly.core.lending.origination.sdk.api.ApplicationCollateralApi;
 import com.firefly.core.lending.origination.sdk.api.ApplicationDocumentApi;
 import com.firefly.core.lending.origination.sdk.api.ApplicationPartyApi;
+import com.firefly.core.lending.origination.sdk.api.LoanApplicationStatusHistoryApi;
 import com.firefly.core.lending.origination.sdk.api.LoanApplicationsApi;
 import com.firefly.core.lending.origination.sdk.api.ProposedOfferApi;
 import com.firefly.core.lending.origination.sdk.invoker.ApiClient;
@@ -49,5 +50,10 @@ public class ClientFactory {
     @Bean
     public ProposedOfferApi proposedOfferApi() {
         return new ProposedOfferApi(apiClient);
+    }
+
+    @Bean
+    public LoanApplicationStatusHistoryApi loanApplicationStatusHistoryApi() {
+        return new LoanApplicationStatusHistoryApi(apiClient);
     }
 }

@@ -79,4 +79,14 @@ public class RegisterApplicationSaga {
         return commandBus.send(new RemoveProposedOfferCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), proposedOfferId));
     }
 
+    @SagaStep(id = STEP_REGISTER_STATUS, compensate = COMPENSATE_REMOVE_STATUS, dependsOn = STEP_REGISTER_LOAN_APPLICATION)
+    @StepEvent(type = EVENT_STATUS_REGISTERED)
+    public Mono<UUID> registerStatus(RegisterLoanApplicationStatusHistoryCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeStatus(UUID statusHistoryId, SagaContext ctx) {
+        return commandBus.send(new RemoveLoanApplicationStatusHistoryCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), statusHistoryId));
+    }
+
 }

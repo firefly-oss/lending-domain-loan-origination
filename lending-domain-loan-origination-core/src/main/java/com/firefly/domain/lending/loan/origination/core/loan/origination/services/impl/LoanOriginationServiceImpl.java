@@ -29,6 +29,7 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
                 .forStep(RegisterApplicationSaga::registerApplicationDocument, ExpandEach.of(command.getDocuments()))
                 .forStep(RegisterApplicationSaga::registerCollateral, ExpandEach.of(command.getCollaterals()))
                 .forStep(RegisterApplicationSaga::registerOffer, ExpandEach.of(command.getOffers()))
+                .forStep(RegisterApplicationSaga::registerStatus, ExpandEach.of(command.getStatusHistories()))
                 .build();
 
         return engine.execute(RegisterApplicationSaga.class, inputs);
