@@ -26,4 +26,10 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RegisterApplicationDocumentCommand extends ApplicationDocumentDTO implements Command<UUID> {
+    private UUID loanApplicationId;
+
+    public RegisterApplicationDocumentCommand withLoanApplicationId(UUID loanApplicationId) {
+        this.loanApplicationId = loanApplicationId;
+        return this;
+    }
 }

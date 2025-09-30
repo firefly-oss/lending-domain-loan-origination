@@ -26,6 +26,7 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
         StepInputs inputs = StepInputs.builder()
                 .forStep(RegisterApplicationSaga::registerLoanApplication, command.getApplication())
                 .forStep(RegisterApplicationSaga::registerApplicationParty, ExpandEach.of(command.getParties()))
+                .forStep(RegisterApplicationSaga::registerApplicationDocument, ExpandEach.of(command.getDocuments()))
                 .build();
 
         return engine.execute(RegisterApplicationSaga.class, inputs);

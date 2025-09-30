@@ -1,10 +1,7 @@
 package com.firefly.domain.lending.loan.origination.core.loan.origination.workflows;
 
 import com.firefly.common.domain.cqrs.command.CommandBus;
-import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.RegisterApplicationPartyCommand;
-import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.RegisterLoanApplicationCommand;
-import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.RemoveApplicationPartyCommand;
-import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.RemoveLoanApplicationCommand;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.*;
 import com.firefly.transactional.annotations.Saga;
 import com.firefly.transactional.annotations.SagaStep;
 import com.firefly.transactional.annotations.StepEvent;
@@ -15,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.GlobalConstants.CTX_APPLICATION_DOCUMENT_ID;
 import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.GlobalConstants.CTX_APPLICATION_PARTY_ID;
 import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.GlobalConstants.CTX_LOAN_APPLICATION_ID;
 import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.RegisterApplicationConstants.*;
@@ -46,12 +44,21 @@ public class RegisterApplicationSaga {
     @SagaStep(id = STEP_REGISTER_APPLICATION_PARTY, compensate = COMPENSATE_REMOVE_APPLICATION_PARTY, dependsOn = STEP_REGISTER_LOAN_APPLICATION)
     @StepEvent(type = EVENT_APPLICATION_PARTY_REGISTERED)
     public Mono<UUID> registerApplicationParty(RegisterApplicationPartyCommand cmd, SagaContext ctx) {
-        return commandBus.send(cmd.withLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class)))
-                .doOnNext(applicationPartyId -> ctx.variables().put(CTX_APPLICATION_PARTY_ID, applicationPartyId));
+        return commandBus.send(cmd.withLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class)));
     }
 
     public Mono<Void> removeApplicationParty(UUID applicationPartyId, SagaContext ctx) {
         return commandBus.send(new RemoveApplicationPartyCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), applicationPartyId));
+    }
+
+    @SagaStep(id = STEP_REGISTER_APPLICATION_DOCUMENT, compensate = COMPENSATE_REMOVE_APPLICATION_DOCUMENT, dependsOn = STEP_REGISTER_LOAN_APPLICATION)
+    @StepEvent(type = EVENT_APPLICATION_DOCUMENT_REGISTERED)
+    public Mono<UUID> registerApplicationDocument(RegisterApplicationDocumentCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeApplicationDocument(UUID applicationDocumentId, SagaContext ctx) {
+        return commandBus.send(new RemoveApplicationDocumentCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), applicationDocumentId));
     }
 
 
