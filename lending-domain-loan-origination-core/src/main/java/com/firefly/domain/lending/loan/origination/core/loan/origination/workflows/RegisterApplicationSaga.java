@@ -89,4 +89,14 @@ public class RegisterApplicationSaga {
         return commandBus.send(new RemoveLoanApplicationStatusHistoryCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), statusHistoryId));
     }
 
+    @SagaStep(id = STEP_REGISTER_SCORE, compensate = COMPENSATE_REMOVE_SCORE, dependsOn = STEP_REGISTER_LOAN_APPLICATION)
+    @StepEvent(type = EVENT_SCORE_REGISTERED)
+    public Mono<UUID> registerScore(RegisterUnderwritingScoreCommand cmd, SagaContext ctx) {
+        return commandBus.send(cmd.withLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class)));
+    }
+
+    public Mono<Void> removeScore(UUID underwritingScoreId, SagaContext ctx) {
+        return commandBus.send(new RemoveUnderwritingScoreCommand(ctx.getVariableAs(CTX_LOAN_APPLICATION_ID, UUID.class), underwritingScoreId));
+    }
+
 }

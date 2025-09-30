@@ -26,4 +26,10 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RegisterUnderwritingScoreCommand extends UnderwritingScoreDTO implements Command<UUID> {
+    private UUID loanApplicationId;
+
+    public RegisterUnderwritingScoreCommand withLoanApplicationId(UUID loanApplicationId) {
+        this.loanApplicationId = loanApplicationId;
+        return this;
+    }
 }
