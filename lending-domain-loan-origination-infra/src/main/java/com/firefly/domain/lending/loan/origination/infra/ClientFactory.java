@@ -1,5 +1,6 @@
 package com.firefly.domain.lending.loan.origination.infra;
 
+import com.firefly.core.lending.origination.sdk.api.ApplicationCollateralApi;
 import com.firefly.core.lending.origination.sdk.api.ApplicationDocumentApi;
 import com.firefly.core.lending.origination.sdk.api.ApplicationPartyApi;
 import com.firefly.core.lending.origination.sdk.api.LoanApplicationsApi;
@@ -22,6 +23,11 @@ public class ClientFactory {
             LoanOriginationProperties loanOriginationProperties) {
         this.apiClient = new ApiClient();
         this.apiClient.setBasePath(loanOriginationProperties.getBasePath());
+    }
+
+    @Bean
+    public ApplicationCollateralApi applicationCollateralApi() {
+        return new ApplicationCollateralApi(apiClient);
     }
 
     @Bean

@@ -26,4 +26,10 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class RegisterApplicationCollateralCommand extends ApplicationCollateralDTO implements Command<UUID> {
+    private UUID loanApplicationId;
+
+    public RegisterApplicationCollateralCommand withLoanApplicationId(UUID loanApplicationId) {
+        this.loanApplicationId = loanApplicationId;
+        return this;
+    }
 }
