@@ -1,0 +1,1145 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "lending-domain-loan-origination",
+    "description": "Lending Domain Loan Origination Layer Application",
+    "contact": {
+      "name": "Firefly Software Solutions Inc",
+      "email": "dev@getfirefly.io"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://core.getfirefly.io/lending-domain-loan-origination",
+      "description": "Development Environment"
+    },
+    {
+      "url": "/",
+      "description": "Local Development Environment"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Loan Origination",
+      "description": "CQ queries and registration for Loan Origination"
+    }
+  ],
+  "paths": {
+    "/api/v1/loan-applications": {
+      "post": {
+        "tags": [
+          "Loan Origination"
+        ],
+        "summary": "Submit application",
+        "description": "Submit an application with product, amount, currency, and channel.",
+        "operationId": "submitApplication",
+        "parameters": [
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitApplicationCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/loan-applications/{appId}/withdraw": {
+      "post": {
+        "tags": [
+          "Loan Origination"
+        ],
+        "summary": "Withdraw application",
+        "description": "Withdraw the application by applicant request.",
+        "operationId": "withdrawApplication",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/loan-applications/{appId}/score": {
+      "post": {
+        "tags": [
+          "Loan Origination"
+        ],
+        "summary": "Score application",
+        "description": "Persist model score with model and version metadata.",
+        "operationId": "scoreApplication",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUnderwritingScoreCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/loan-applications/{appId}/reject": {
+      "post": {
+        "tags": [
+          "Loan Origination"
+        ],
+        "summary": "Reject application",
+        "description": "Reject with reason for risk, eligibility, or documentation issues.",
+        "operationId": "rejectApplication",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/loan-applications/{appId}/documents": {
+      "post": {
+        "tags": [
+          "Loan Origination"
+        ],
+        "summary": "Attach documents",
+        "description": "Attach supporting documents including income, statements, and collateral.",
+        "operationId": "attachDocuments",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterApplicationDocumentCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/loan-applications/{appId}/approve": {
+      "post": {
+        "tags": [
+          "Loan Origination"
+        ],
+        "summary": "Approve application",
+        "description": "Approve with terms including rate, tenor, and fees aligned with product rules.",
+        "operationId": "approveApplication",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for idempotent requests. If provided, ensures that identical requests with the same key will only be processed once.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/loan-applications/{appId}": {
+      "get": {
+        "tags": [
+          "Loan Origination"
+        ],
+        "summary": "Get application",
+        "description": "Retrieve application state and audit log.",
+        "operationId": "getApplication",
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-Party-ID",
+            "in": "header",
+            "description": "Identifier of the client (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Employee-ID",
+            "in": "header",
+            "description": "Identifier of the employee (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Service-Account-ID",
+            "in": "header",
+            "description": "Identifier of the service account (at least one of X-Party-ID, X-Employee-ID, or X-Service-Account-ID is required)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Roles",
+            "in": "header",
+            "description": "Roles of the subject (CUSTOMER, ADMIN, CUSTOMER_SUPPORT, SUPERVISOR, MANAGER, BRANCH_STAFF, SERVICE_ACCOUNT), comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Auth-Scopes",
+            "in": "header",
+            "description": "OAuth2 scopes like contracts.read, accounts.write, comma-separated (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "description": "Unique identifier for the request, used for traceability (optional)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoanApplicationDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterApplicationCollateralCommand": {
+        "type": "object",
+        "properties": {
+          "applicationCollateralId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "collateralTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "estimatedValue": {
+            "type": "number"
+          },
+          "ownershipDetails": {
+            "type": "string"
+          },
+          "isPrimaryCollateral": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RegisterApplicationDocumentCommand": {
+        "type": "object",
+        "properties": {
+          "applicationDocumentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "documentTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "isMandatory": {
+            "type": "boolean"
+          },
+          "isReceived": {
+            "type": "boolean"
+          },
+          "receivedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RegisterApplicationPartyCommand": {
+        "type": "object",
+        "properties": {
+          "applicationPartyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "partyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "roleCodeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "sharePercentage": {
+            "type": "number"
+          },
+          "annualIncome": {
+            "type": "number"
+          },
+          "monthlyExpenses": {
+            "type": "number"
+          },
+          "employmentTypeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RegisterLoanApplicationCommand": {
+        "type": "object",
+        "properties": {
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationNumber": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationStatusId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationSubStatusId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "submissionChannelId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "partyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distributorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "note": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RegisterLoanApplicationStatusHistoryCommand": {
+        "type": "object",
+        "properties": {
+          "statusHistoryId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "oldStatus": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "SUBMITTED",
+              "UNDER_REVIEW",
+              "APPROVED",
+              "REJECTED",
+              "CANCELLED"
+            ]
+          },
+          "newStatus": {
+            "type": "string",
+            "enum": [
+              "DRAFT",
+              "SUBMITTED",
+              "UNDER_REVIEW",
+              "APPROVED",
+              "REJECTED",
+              "CANCELLED"
+            ]
+          },
+          "changeReason": {
+            "type": "string"
+          },
+          "changedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "changedBy": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RegisterProposedOfferCommand": {
+        "type": "object",
+        "properties": {
+          "proposedOfferId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "requestedAmount": {
+            "type": "number"
+          },
+          "requestedTenorMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "requestedInterestRate": {
+            "type": "number"
+          },
+          "validUntil": {
+            "type": "string",
+            "format": "date"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RegisterUnderwritingDecisionCommand": {
+        "type": "object",
+        "properties": {
+          "underwritingDecisionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "decisionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "decisionCodeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "approvedAmount": {
+            "type": "number"
+          },
+          "approvedInterestRate": {
+            "type": "number"
+          },
+          "tenorMonths": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "riskGradeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "remarks": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RegisterUnderwritingScoreCommand": {
+        "type": "object",
+        "properties": {
+          "underwritingScoreId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scoreValue": {
+            "type": "number"
+          },
+          "scorecardName": {
+            "type": "string"
+          },
+          "reasonCodes": {
+            "type": "string"
+          },
+          "scoringTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SubmitApplicationCommand": {
+        "type": "object",
+        "properties": {
+          "application": {
+            "$ref": "#/components/schemas/RegisterLoanApplicationCommand"
+          },
+          "parties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterApplicationPartyCommand"
+            }
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterApplicationDocumentCommand"
+            }
+          },
+          "collaterals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterApplicationCollateralCommand"
+            }
+          },
+          "offers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterProposedOfferCommand"
+            }
+          },
+          "statusHistories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterLoanApplicationStatusHistoryCommand"
+            }
+          },
+          "score": {
+            "$ref": "#/components/schemas/RegisterUnderwritingScoreCommand"
+          },
+          "decision": {
+            "$ref": "#/components/schemas/RegisterUnderwritingDecisionCommand"
+          }
+        }
+      },
+      "LoanApplicationDTO": {
+        "type": "object",
+        "properties": {
+          "loanApplicationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationNumber": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationStatusId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationSubStatusId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "applicationDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "submissionChannelId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "partyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "distributorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "note": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
