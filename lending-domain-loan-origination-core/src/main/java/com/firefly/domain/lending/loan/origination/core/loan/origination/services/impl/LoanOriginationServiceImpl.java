@@ -1,5 +1,7 @@
 package com.firefly.domain.lending.loan.origination.core.loan.origination.services.impl;
 
+import com.firefly.common.domain.cqrs.query.QueryBus;
+import com.firefly.core.lending.origination.sdk.model.LoanApplicationDTO;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.*;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.services.LoanOriginationService;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationSaga;
@@ -20,10 +22,12 @@ import java.util.UUID;
 public class LoanOriginationServiceImpl implements LoanOriginationService {
 
     private final SagaEngine engine;
+    private final QueryBus queryBus;
 
     @Autowired
-    public LoanOriginationServiceImpl(SagaEngine engine){
+    public LoanOriginationServiceImpl(SagaEngine engine, QueryBus queryBus){
         this.engine=engine;
+        this.queryBus = queryBus;
     }
 
     @Override
@@ -74,21 +78,13 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
                 .forStep(UpdateApplicationStatusSaga::retrieveOldApplicationStatus, command.getApplicationStatusQuery())
                 .forStep(UpdateApplicationStatusSaga::updateApplicationStatus, command)
                 .forStep(UpdateApplicationStatusSaga::updateApplicationStatusHistory, command)
-
                 .build();
 
         return engine.execute(UpdateApplicationStatusSaga.class, inputs);
     }
 
     @Override
-    public Mono<SagaResult> rejectApplication(String appId, RejectApplicationCommand command) {
-        // TODO: Implement rejection logic
-        return Mono.empty();
-    }
-
-    @Override
-    public Mono<Object> getApplication(String appId) {
-        // TODO: Implement application retrieval logic
-        return Mono.empty();
+    public Mono<LoanApplicationDTO> getApplication(UUID appId) {
+        return queryBus.query(GetLoanApplicationQuery.builder().loanApplicationId(appId).build());
     }
 }

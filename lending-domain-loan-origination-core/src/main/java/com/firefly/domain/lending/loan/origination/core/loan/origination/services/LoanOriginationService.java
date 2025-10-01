@@ -1,5 +1,6 @@
 package com.firefly.domain.lending.loan.origination.core.loan.origination.services;
 
+import com.firefly.core.lending.origination.sdk.model.LoanApplicationDTO;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.*;
 import com.firefly.transactional.core.SagaResult;
 import jakarta.validation.Valid;
@@ -50,30 +51,22 @@ public interface LoanOriginationService {
     
 
     /**
-     * Approves a loan application by updating its status to an approved state.
-     * This method processes the approval operation, including setting the appropriate
-     * application status and triggering any related business logic.
+     * Updates the status of a loan application. This method processes the status change
+     * of a loan application based on the details provided in the command and performs
+     * necessary operations such as persisting the updated status and maintaining a history record.
      *
-     * @param command the command containing the details of the loan application
-     *                and the updated status information.
-     * @return a Mono emitting the result of the approval process, encapsulated in a SagaResult.
+     * @param command the command containing details required to update the status of a loan application,
+     *                including the loan application ID, new status information, and associated data.
+     * @return a {@code Mono<SagaResult>} emitting the result of the status update process, encapsulating
+     *         the outcome of the associated saga flow.
      */
     Mono<SagaResult> updateApplicationStatus(UpdateApplicationStatusCommand command);
-    
-    /**
-     * Rejects a loan application for the specified application ID with the provided rejection details.
-     *
-     * @param appId the unique identifier of the application to be rejected
-     * @param command the command containing details for rejecting the application
-     * @return a {@code Mono<SagaResult>} indicating the result of the rejection operation
-     */
-    Mono<SagaResult> rejectApplication(String appId, @Valid RejectApplicationCommand command);
-    
+
     /**
      * Retrieves the details and state of a specified loan application.
      *
      * @param appId the unique identifier of the loan application to retrieve
      * @return a {@code Mono} emitting the loan application details, or empty if not found
      */
-    Mono<Object> getApplication(String appId);
+    Mono<LoanApplicationDTO> getApplication(UUID appId);
 }

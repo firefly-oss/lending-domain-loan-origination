@@ -1,5 +1,6 @@
 package com.firefly.domain.lending.loan.origination.web.controller;
 
+import com.firefly.core.lending.origination.sdk.model.LoanApplicationDTO;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.*;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.services.LoanOriginationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -84,7 +85,7 @@ public class LoanOriginationController {
 
     @Operation(summary = "Get application", description = "Retrieve application state and audit log.")
     @GetMapping("/{appId}")
-    public Mono<ResponseEntity<Object>> getApplication(@PathVariable String appId) {
+    public Mono<ResponseEntity<LoanApplicationDTO>> getApplication(@PathVariable UUID appId) {
         return loanOriginationService.getApplication(appId)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
