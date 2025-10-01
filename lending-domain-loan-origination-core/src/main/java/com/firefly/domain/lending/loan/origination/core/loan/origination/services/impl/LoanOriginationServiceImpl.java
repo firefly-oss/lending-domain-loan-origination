@@ -56,12 +56,6 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
     }
 
     @Override
-    public Mono<SagaResult> withdrawApplication(String appId, WithdrawApplicationCommand command) {
-        // TODO: Implement application withdrawal logic
-        return Mono.empty();
-    }
-
-    @Override
     public Mono<SagaResult> scoreApplication(UUID appId, RegisterUnderwritingScoreCommand command) {
         StepInputs inputs = StepInputs.builder()
                 .forStep(RegisterScoreSaga::registerScore, command.withLoanApplicationId(appId))

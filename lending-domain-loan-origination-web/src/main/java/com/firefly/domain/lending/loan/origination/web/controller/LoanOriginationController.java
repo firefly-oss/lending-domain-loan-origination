@@ -37,8 +37,18 @@ public class LoanOriginationController {
 
     @Operation(summary = "Withdraw application", description = "Withdraw the application by applicant request.")
     @PostMapping("/{appId}/withdraw")
-    public Mono<ResponseEntity<Object>> withdrawApplication(@PathVariable String appId, @Valid @RequestBody WithdrawApplicationCommand command) {
-        return loanOriginationService.withdrawApplication(appId, command)
+    public Mono<ResponseEntity<Object>> withdrawApplication(@PathVariable UUID appId) {
+        return loanOriginationService
+                .updateApplicationStatus(UpdateApplicationStatusCommand.builder()
+                        .loanApplicationId(appId)
+                        .applicationQuery(GetLoanApplicationQuery
+                                .builder().loanApplicationId(appId)
+                                .build())
+                        .applicationStatusQuery(GetApplicationStatusQuery
+                                .builder().applicationStatusCode("CANCELLED")
+                                .build())
+                        .statusHistoryCommand(RegisterLoanApplicationStatusHistoryCommand.builder().build())
+                        .build())
                 .thenReturn(ResponseEntity.ok().build());
     }
 

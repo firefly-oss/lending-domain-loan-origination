@@ -28,17 +28,7 @@ public interface LoanOriginationService {
      * @return a reactive Mono emitting the result of the document attachment operation, encapsulated in a SagaResult
      */
     Mono<SagaResult> attachDocuments(UUID appId, @Valid RegisterApplicationDocumentCommand command);
-    
-    /**
-     * Withdraws an existing loan application based on the provided application ID and command.
-     * This method is used to handle the withdrawal request initiated by the applicant.
-     *
-     * @param appId The unique identifier of the loan application to be withdrawn.
-     * @param command The command containing details required for the withdrawal operation.
-     * @return A {@code Mono<SagaResult>} indicating the outcome of the withdrawal process.
-     */
-    Mono<SagaResult> withdrawApplication(String appId, @Valid WithdrawApplicationCommand command);
-    
+
     /**
      * Scores a loan application by persisting a model score along with metadata about the model
      * and its version.
