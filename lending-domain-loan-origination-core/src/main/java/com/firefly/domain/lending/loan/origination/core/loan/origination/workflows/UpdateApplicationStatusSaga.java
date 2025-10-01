@@ -40,7 +40,7 @@ public class UpdateApplicationStatusSaga {
     @StepEvent(type = EVENT_APPLICATION_STATUS_RETRIEVED)
     public Mono<ApplicationStatusDTO> retrieveApplicationStatus(GetApplicationStatusQuery cmd, SagaContext ctx) {
         return queryBus.query(cmd)
-                .doOnNext(applicationStatusId -> ctx.variables().put(CTX_APPLICATION_STATUS, applicationStatusId));
+                .doOnNext(applicationStatus -> ctx.variables().put(CTX_APPLICATION_STATUS, applicationStatus));
     }
 
     @SagaStep(id = STEP_RETRIEVE_APPLICATION)
@@ -48,6 +48,13 @@ public class UpdateApplicationStatusSaga {
     public Mono<LoanApplicationDTO> retrieveLoanApplication(GetLoanApplicationQuery cmd, SagaContext ctx) {
         return queryBus.query(cmd)
                 .doOnNext(loanApplicationDTO -> ctx.variables().put(CTX_LOAN_APPLICATION, loanApplicationDTO));
+    }
+
+    @SagaStep(id = STEP_RETRIEVE_OLD_APPLICATION_STATUS, dependsOn = STEP_RETRIEVE_APPLICATION)
+    @StepEvent(type = EVENT_OLD_APPLICATION_STATUS_RETRIEVED)
+    public Mono<ApplicationStatusDTO> retrieveOldApplicationStatus(GetApplicationStatusQuery cmd, SagaContext ctx) {
+        return queryBus.query(cmd.withApplicationStatusId(ctx.getVariableAs(CTX_LOAN_APPLICATION, LoanApplicationDTO.class).getApplicationStatusId()))
+                .doOnNext(oldApplicationStatus -> ctx.variables().put(CTX_OLD_APPLICATION_STATUS, oldApplicationStatus));
     }
 
     @SagaStep(id = STEP_UPDATE_APPLICATION_STATUS, dependsOn = STEP_RETRIEVE_APPLICATION_STATUS)
@@ -63,7 +70,7 @@ public class UpdateApplicationStatusSaga {
     public Mono<UUID> updateApplicationStatusHistory(UpdateApplicationStatusCommand cmd, SagaContext ctx) {
         RegisterLoanApplicationStatusHistoryCommand cmdHistory = cmd.getStatusHistoryCommand();
         cmdHistory.setLoanApplicationId(ctx.getVariableAs(CTX_LOAN_APPLICATION, LoanApplicationDTO.class).getLoanApplicationId());
-        cmdHistory.setOldStatus(LoanApplicationStatusHistoryDTO.OldStatusEnum.valueOf(cmd.getApplicationStatusQuery().getApplicationStatusCode()));
+        cmdHistory.setOldStatus(LoanApplicationStatusHistoryDTO.OldStatusEnum.valueOf(ctx.getVariableAs(CTX_OLD_APPLICATION_STATUS, ApplicationStatusDTO.class).getCode()));
         cmdHistory.setNewStatus(LoanApplicationStatusHistoryDTO.NewStatusEnum.valueOf(ctx.getVariableAs(CTX_APPLICATION_STATUS, ApplicationStatusDTO.class).getCode()));
         cmdHistory.setChangeReason("User request to update application status");
         cmdHistory.setChangedBy("system-auto-process");

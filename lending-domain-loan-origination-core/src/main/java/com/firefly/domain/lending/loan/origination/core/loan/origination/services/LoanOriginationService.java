@@ -58,7 +58,7 @@ public interface LoanOriginationService {
      *                and the updated status information.
      * @return a Mono emitting the result of the approval process, encapsulated in a SagaResult.
      */
-    Mono<SagaResult> approveApplication(UpdateApplicationStatusCommand command);
+    Mono<SagaResult> updateApplicationStatus(UpdateApplicationStatusCommand command);
     
     /**
      * Rejects a loan application for the specified application ID with the provided rejection details.

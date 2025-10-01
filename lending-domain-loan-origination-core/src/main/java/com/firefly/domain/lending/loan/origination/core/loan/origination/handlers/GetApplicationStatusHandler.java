@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 import java.util.UUID;
 
-@QueryHandlerComponent
+@QueryHandlerComponent(cacheable = false)
 public class GetApplicationStatusHandler extends QueryHandler<GetApplicationStatusQuery, ApplicationStatusDTO> {
 
     private final ApplicationStatusApi applicationStatusApi;
@@ -21,6 +21,9 @@ public class GetApplicationStatusHandler extends QueryHandler<GetApplicationStat
 
     @Override
     protected Mono<ApplicationStatusDTO> doHandle(GetApplicationStatusQuery cmd) {
+        if(null!=cmd.getApplicationStatusId()){
+            return applicationStatusApi.getApplicationStatus(cmd.getApplicationStatusId());
+        }
         return applicationStatusApi.getApplicationStatusByCode(cmd.getApplicationStatusCode());
     }
 }

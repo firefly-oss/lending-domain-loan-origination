@@ -12,9 +12,10 @@ import java.util.UUID;
 @Builder
 public class GetApplicationStatusQuery implements Query<ApplicationStatusDTO> {
     private String applicationStatusCode;
+    private UUID applicationStatusId;
 
-    public GetApplicationStatusQuery withApplicationStatusCode(String applicationStatusCode) {
-        this.applicationStatusCode = applicationStatusCode;
+    public GetApplicationStatusQuery withApplicationStatusId(UUID applicationStatusId) {
+        this.applicationStatusId = applicationStatusId;
         return this;
     }
 }

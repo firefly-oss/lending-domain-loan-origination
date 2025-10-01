@@ -52,7 +52,7 @@ public class LoanOriginationController {
     @PostMapping("/{appId}/approve")
     public Mono<ResponseEntity<Object>> approveApplication(@PathVariable UUID appId) {
         return loanOriginationService
-                .approveApplication(UpdateApplicationStatusCommand.builder()
+                .updateApplicationStatus(UpdateApplicationStatusCommand.builder()
                         .loanApplicationId(appId)
                         .applicationQuery(GetLoanApplicationQuery
                                 .builder().loanApplicationId(appId)
@@ -67,8 +67,18 @@ public class LoanOriginationController {
 
     @Operation(summary = "Reject application", description = "Reject with reason for risk, eligibility, or documentation issues.")
     @PostMapping("/{appId}/reject")
-    public Mono<ResponseEntity<Object>> rejectApplication(@PathVariable String appId, @Valid @RequestBody RejectApplicationCommand command) {
-        return loanOriginationService.rejectApplication(appId, command)
+    public Mono<ResponseEntity<Object>> rejectApplication(@PathVariable UUID appId) {
+        return loanOriginationService
+                .updateApplicationStatus(UpdateApplicationStatusCommand.builder()
+                        .loanApplicationId(appId)
+                        .applicationQuery(GetLoanApplicationQuery
+                                .builder().loanApplicationId(appId)
+                                .build())
+                        .applicationStatusQuery(GetApplicationStatusQuery
+                                .builder().applicationStatusCode("REJECTED")
+                                .build())
+                        .statusHistoryCommand(RegisterLoanApplicationStatusHistoryCommand.builder().build())
+                        .build())
                 .thenReturn(ResponseEntity.ok().build());
     }
 

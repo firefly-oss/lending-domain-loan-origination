@@ -67,10 +67,11 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
     }
 
     @Override
-    public Mono<SagaResult> approveApplication(UpdateApplicationStatusCommand command) {
+    public Mono<SagaResult> updateApplicationStatus(UpdateApplicationStatusCommand command) {
         StepInputs inputs = StepInputs.builder()
                 .forStep(UpdateApplicationStatusSaga::retrieveApplicationStatus, command.getApplicationStatusQuery())
                 .forStep(UpdateApplicationStatusSaga::retrieveLoanApplication, command.getApplicationQuery())
+                .forStep(UpdateApplicationStatusSaga::retrieveOldApplicationStatus, command.getApplicationStatusQuery())
                 .forStep(UpdateApplicationStatusSaga::updateApplicationStatus, command)
                 .forStep(UpdateApplicationStatusSaga::updateApplicationStatusHistory, command)
 

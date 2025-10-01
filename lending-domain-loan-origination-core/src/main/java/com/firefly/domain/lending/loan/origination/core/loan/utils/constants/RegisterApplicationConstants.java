@@ -18,6 +18,7 @@ public class RegisterApplicationConstants {
     public static final String STEP_REGISTER_SCORE = "registerScore";
     public static final String STEP_REGISTER_DECISION = "registerDecision";
     public static final String STEP_RETRIEVE_APPLICATION_STATUS = "retrieveApplicationStatus";
+    public static final String STEP_RETRIEVE_OLD_APPLICATION_STATUS = "retrieveOldApplicationStatus";
     public static final String STEP_RETRIEVE_APPLICATION = "retrieveApplication";
     public static final String STEP_UPDATE_APPLICATION_STATUS = "updateApplicationStatus";
     public static final String STEP_UPDATE_APPLICATION_STATUS_HISTORY = "updateApplicationStatusHistory";
@@ -43,6 +44,7 @@ public class RegisterApplicationConstants {
     public static final String EVENT_SCORE_REGISTERED = "score.registered";
     public static final String EVENT_DECISION_REGISTERED = "decision.registered";
     public static final String EVENT_APPLICATION_STATUS_RETRIEVED = "applicationStatus.retrieved";
+    public static final String EVENT_OLD_APPLICATION_STATUS_RETRIEVED = "oldApplicationStatus.retrieved";
     public static final String EVENT_APPLICATION_RETRIEVED = "application.retrieved";
     public static final String EVENT_APPLICATION_STATUS_UPDATED = "applicationStatus.updated";
     public static final String EVENT_APPLICATION_STATUS_HISTORY_UPDATED = "applicationStatusHistory.updated";
