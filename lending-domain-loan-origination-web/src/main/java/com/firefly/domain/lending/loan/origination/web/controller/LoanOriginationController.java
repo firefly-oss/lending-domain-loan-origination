@@ -43,7 +43,7 @@ public class LoanOriginationController {
 
     @Operation(summary = "Score application", description = "Persist model score with model and version metadata.")
     @PostMapping("/{appId}/score")
-    public Mono<ResponseEntity<Object>> scoreApplication(@PathVariable String appId, @Valid @RequestBody ScoreApplicationCommand command) {
+    public Mono<ResponseEntity<Object>> scoreApplication(@PathVariable UUID appId, @Valid @RequestBody RegisterUnderwritingScoreCommand command) {
         return loanOriginationService.scoreApplication(appId, command)
                 .thenReturn(ResponseEntity.ok().build());
     }

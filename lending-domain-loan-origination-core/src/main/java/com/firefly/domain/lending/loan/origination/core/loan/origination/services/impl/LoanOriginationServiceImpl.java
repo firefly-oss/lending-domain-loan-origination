@@ -4,6 +4,7 @@ import com.firefly.domain.lending.loan.origination.core.loan.origination.command
 import com.firefly.domain.lending.loan.origination.core.loan.origination.services.LoanOriginationService;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationSaga;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationDocumentSaga;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterScoreSaga;
 import com.firefly.transactional.core.SagaResult;
 import com.firefly.transactional.engine.ExpandEach;
 import com.firefly.transactional.engine.SagaEngine;
@@ -56,9 +57,12 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
     }
 
     @Override
-    public Mono<SagaResult> scoreApplication(String appId, ScoreApplicationCommand command) {
-        // TODO: Implement scoring logic
-        return Mono.empty();
+    public Mono<SagaResult> scoreApplication(UUID appId, RegisterUnderwritingScoreCommand command) {
+        StepInputs inputs = StepInputs.builder()
+                .forStep(RegisterScoreSaga::registerScore, command.withLoanApplicationId(appId))
+                .build();
+
+        return engine.execute(RegisterScoreSaga.class, inputs);
     }
 
     @Override

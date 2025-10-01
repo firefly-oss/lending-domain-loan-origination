@@ -46,7 +46,7 @@ public interface LoanOriginationService {
      * @param command the command containing the details necessary to score the application
      * @return a Mono emitting a SagaResult representing the outcome of the scoring operation
      */
-    Mono<SagaResult> scoreApplication(String appId, @Valid ScoreApplicationCommand command);
+    Mono<SagaResult> scoreApplication(UUID appId, @Valid RegisterUnderwritingScoreCommand command);
     
     /**
      * Approves a loan application by validating and applying the given command, aligning with specified terms.
