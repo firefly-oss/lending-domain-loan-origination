@@ -18,6 +18,7 @@ package com.firefly.domain.lending.loan.origination.core.loan.origination.comman
 
 import com.firefly.common.domain.cqrs.command.Command;
 import com.firefly.core.lending.origination.sdk.model.LoanApplicationStatusHistoryDTO;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -25,6 +26,7 @@ import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 public class RegisterLoanApplicationStatusHistoryCommand extends LoanApplicationStatusHistoryDTO implements Command<UUID> {
     private UUID loanApplicationId;
 

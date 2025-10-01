@@ -48,14 +48,17 @@ public interface LoanOriginationService {
      */
     Mono<SagaResult> scoreApplication(UUID appId, @Valid RegisterUnderwritingScoreCommand command);
     
+
     /**
-     * Approves a loan application by validating and applying the given command, aligning with specified terms.
+     * Approves a loan application by updating its status to an approved state.
+     * This method processes the approval operation, including setting the appropriate
+     * application status and triggering any related business logic.
      *
-     * @param appId the unique identifier of the application to be approved
-     * @param command the command containing approval details such as terms, rate, tenor, and fees
-     * @return a reactive Mono stream containing the result of the approval process encapsulated in a SagaResult
+     * @param command the command containing the details of the loan application
+     *                and the updated status information.
+     * @return a Mono emitting the result of the approval process, encapsulated in a SagaResult.
      */
-    Mono<SagaResult> approveApplication(String appId, @Valid ApproveApplicationCommand command);
+    Mono<SagaResult> approveApplication(UpdateApplicationStatusCommand command);
     
     /**
      * Rejects a loan application for the specified application ID with the provided rejection details.

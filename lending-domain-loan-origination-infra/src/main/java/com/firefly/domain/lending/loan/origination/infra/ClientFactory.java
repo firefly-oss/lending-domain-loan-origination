@@ -1,13 +1,6 @@
 package com.firefly.domain.lending.loan.origination.infra;
 
-import com.firefly.core.lending.origination.sdk.api.ApplicationCollateralApi;
-import com.firefly.core.lending.origination.sdk.api.ApplicationDocumentApi;
-import com.firefly.core.lending.origination.sdk.api.ApplicationPartyApi;
-import com.firefly.core.lending.origination.sdk.api.LoanApplicationStatusHistoryApi;
-import com.firefly.core.lending.origination.sdk.api.LoanApplicationsApi;
-import com.firefly.core.lending.origination.sdk.api.ProposedOfferApi;
-import com.firefly.core.lending.origination.sdk.api.UnderwritingDecisionApi;
-import com.firefly.core.lending.origination.sdk.api.UnderwritingScoreApi;
+import com.firefly.core.lending.origination.sdk.api.*;
 import com.firefly.core.lending.origination.sdk.invoker.ApiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -67,5 +60,10 @@ public class ClientFactory {
     @Bean
     public UnderwritingDecisionApi underwritingDecisionApi() {
         return new UnderwritingDecisionApi(apiClient);
+    }
+
+    @Bean
+    public ApplicationStatusApi applicationStatusApi() {
+        return new ApplicationStatusApi(apiClient);
     }
 }

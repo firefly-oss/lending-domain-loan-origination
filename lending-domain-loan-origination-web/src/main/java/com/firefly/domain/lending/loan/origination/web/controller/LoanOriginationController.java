@@ -50,8 +50,18 @@ public class LoanOriginationController {
 
     @Operation(summary = "Approve application", description = "Approve with terms including rate, tenor, and fees aligned with product rules.")
     @PostMapping("/{appId}/approve")
-    public Mono<ResponseEntity<Object>> approveApplication(@PathVariable String appId, @Valid @RequestBody ApproveApplicationCommand command) {
-        return loanOriginationService.approveApplication(appId, command)
+    public Mono<ResponseEntity<Object>> approveApplication(@PathVariable UUID appId) {
+        return loanOriginationService
+                .approveApplication(UpdateApplicationStatusCommand.builder()
+                        .loanApplicationId(appId)
+                        .applicationQuery(GetLoanApplicationQuery
+                                .builder().loanApplicationId(appId)
+                                .build())
+                        .applicationStatusQuery(GetApplicationStatusQuery
+                                .builder().applicationStatusCode("APPROVED")
+                                .build())
+                        .statusHistoryCommand(RegisterLoanApplicationStatusHistoryCommand.builder().build())
+                        .build())
                 .thenReturn(ResponseEntity.ok().build());
     }
 

@@ -5,6 +5,7 @@ import com.firefly.domain.lending.loan.origination.core.loan.origination.service
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationSaga;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationDocumentSaga;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterScoreSaga;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.UpdateApplicationStatusSaga;
 import com.firefly.transactional.core.SagaResult;
 import com.firefly.transactional.engine.ExpandEach;
 import com.firefly.transactional.engine.SagaEngine;
@@ -66,9 +67,16 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
     }
 
     @Override
-    public Mono<SagaResult> approveApplication(String appId, ApproveApplicationCommand command) {
-        // TODO: Implement approval logic
-        return Mono.empty();
+    public Mono<SagaResult> approveApplication(UpdateApplicationStatusCommand command) {
+        StepInputs inputs = StepInputs.builder()
+                .forStep(UpdateApplicationStatusSaga::retrieveApplicationStatus, command.getApplicationStatusQuery())
+                .forStep(UpdateApplicationStatusSaga::retrieveLoanApplication, command.getApplicationQuery())
+                .forStep(UpdateApplicationStatusSaga::updateApplicationStatus, command)
+                .forStep(UpdateApplicationStatusSaga::updateApplicationStatusHistory, command)
+
+                .build();
+
+        return engine.execute(UpdateApplicationStatusSaga.class, inputs);
     }
 
     @Override

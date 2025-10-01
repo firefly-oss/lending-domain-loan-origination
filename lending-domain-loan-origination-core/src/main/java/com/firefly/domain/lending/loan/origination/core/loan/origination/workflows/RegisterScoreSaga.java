@@ -15,7 +15,7 @@ import java.util.UUID;
 import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.GlobalConstants.CTX_LOAN_APPLICATION_ID;
 import static com.firefly.domain.lending.loan.origination.core.loan.utils.constants.RegisterApplicationConstants.*;
 
-@Saga(name = "RegisterScoreSaga")
+@Saga(name = SAGA_REGISTER_SCORE)
 @Service
 public class RegisterScoreSaga {
 
