@@ -5,6 +5,8 @@ import com.firefly.transactional.core.SagaResult;
 import jakarta.validation.Valid;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 public interface LoanOriginationService {
 
     /**
@@ -24,7 +26,7 @@ public interface LoanOriginationService {
      * @param command the command containing the information and references for the documents to be attached
      * @return a reactive Mono emitting the result of the document attachment operation, encapsulated in a SagaResult
      */
-    Mono<SagaResult> attachDocuments(String appId, @Valid AttachDocumentsCommand command);
+    Mono<SagaResult> attachDocuments(UUID appId, @Valid RegisterApplicationDocumentCommand command);
     
     /**
      * Withdraws an existing loan application based on the provided application ID and command.

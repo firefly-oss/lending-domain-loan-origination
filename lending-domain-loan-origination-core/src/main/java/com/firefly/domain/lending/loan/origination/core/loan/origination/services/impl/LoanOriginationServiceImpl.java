@@ -3,6 +3,7 @@ package com.firefly.domain.lending.loan.origination.core.loan.origination.servic
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.*;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.services.LoanOriginationService;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationSaga;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationDocumentSaga;
 import com.firefly.transactional.core.SagaResult;
 import com.firefly.transactional.engine.ExpandEach;
 import com.firefly.transactional.engine.SagaEngine;
@@ -10,6 +11,8 @@ import com.firefly.transactional.engine.StepInputs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @Service
 public class LoanOriginationServiceImpl implements LoanOriginationService {
@@ -38,9 +41,12 @@ public class LoanOriginationServiceImpl implements LoanOriginationService {
     }
 
     @Override
-    public Mono<SagaResult> attachDocuments(String appId, AttachDocumentsCommand command) {
-        // TODO: Implement document attachment logic
-        return Mono.empty();
+    public Mono<SagaResult> attachDocuments(UUID appId, RegisterApplicationDocumentCommand command) {
+        StepInputs inputs = StepInputs.builder()
+                .forStep(RegisterApplicationDocumentSaga::registerApplicationDocument, command.withLoanApplicationId(appId))
+                .build();
+
+        return engine.execute(RegisterApplicationDocumentSaga.class, inputs);
     }
 
     @Override

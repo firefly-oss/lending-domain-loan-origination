@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/loan-applications")
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class LoanOriginationController {
 
     @Operation(summary = "Attach documents", description = "Attach supporting documents including income, statements, and collateral.")
     @PostMapping("/{appId}/documents")
-    public Mono<ResponseEntity<Object>> attachDocuments(@PathVariable String appId, @Valid @RequestBody AttachDocumentsCommand command) {
+    public Mono<ResponseEntity<Object>> attachDocuments(@PathVariable UUID appId, @Valid @RequestBody RegisterApplicationDocumentCommand command) {
         return loanOriginationService.attachDocuments(appId, command)
                 .thenReturn(ResponseEntity.ok().build());
     }
