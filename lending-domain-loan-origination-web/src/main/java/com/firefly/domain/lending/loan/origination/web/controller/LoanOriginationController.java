@@ -2,6 +2,8 @@ package com.firefly.domain.lending.loan.origination.web.controller;
 
 import com.firefly.core.lending.origination.sdk.model.LoanApplicationDTO;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.*;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.queries.GetApplicationStatusQuery;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.queries.GetLoanApplicationQuery;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.services.LoanOriginationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,4 +1,4 @@
-package com.firefly.domain.lending.loan.origination.core.loan.origination.commands;
+package com.firefly.domain.lending.loan.origination.core.loan.origination.queries;
 
 import com.firefly.common.domain.cqrs.query.Query;
 import com.firefly.core.lending.origination.sdk.model.LoanApplicationDTO;

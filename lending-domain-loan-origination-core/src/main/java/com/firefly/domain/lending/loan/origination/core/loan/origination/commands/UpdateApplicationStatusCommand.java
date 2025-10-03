@@ -2,6 +2,8 @@ package com.firefly.domain.lending.loan.origination.core.loan.origination.comman
 
 import com.firefly.common.domain.cqrs.command.Command;
 import com.firefly.core.lending.origination.sdk.model.LoanApplicationDTO;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.queries.GetApplicationStatusQuery;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.queries.GetLoanApplicationQuery;
 import lombok.Builder;
 import lombok.Data;
 

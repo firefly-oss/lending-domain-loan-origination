@@ -3,6 +3,7 @@ package com.firefly.domain.lending.loan.origination.core.loan.origination.servic
 import com.firefly.common.domain.cqrs.query.QueryBus;
 import com.firefly.core.lending.origination.sdk.model.LoanApplicationDTO;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.commands.*;
+import com.firefly.domain.lending.loan.origination.core.loan.origination.queries.GetLoanApplicationQuery;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.services.LoanOriginationService;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationSaga;
 import com.firefly.domain.lending.loan.origination.core.loan.origination.workflows.RegisterApplicationDocumentSaga;
